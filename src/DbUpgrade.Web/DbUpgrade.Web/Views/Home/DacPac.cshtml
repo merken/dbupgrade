@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Generate DacPac";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+@model DbUpgrade.Web.Models.DacPacModel
+
+@using (Html.BeginForm("GenerateDacPac", "Home", FormMethod.Post))
+{   <div>
+        Server connection string :
+        <br />
+        @Html.TextBoxFor(model => model.ConnectionString, new { style = "width: 100%;" })
+        @Html.ValidationMessageFor(model => model.ConnectionString)
+    </div>
+    <div>
+        Database name :
+        <br />
+        @Html.TextBoxFor(model => model.DatabaseName, new { style = "width: 100%;" })
+        @Html.ValidationMessageFor(model => model.DatabaseName)
+    </div>
+    <br />
+    <button type="submit">Generate</button>
+}

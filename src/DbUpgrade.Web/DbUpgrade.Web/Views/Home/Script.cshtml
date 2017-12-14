@@ -1,0 +1,65 @@
+﻿@using Microsoft.SqlServer.Dac
+@{
+    ViewBag.Title = "Generate Script";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+@model DbUpgrade.Web.Models.ScriptModel
+
+@using (Html.BeginForm("GenerateScript", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{  <div>
+        Server connection string :
+        <br />
+        @Html.TextBoxFor(model => model.ConnectionString, new { style = "width: 100%;" })
+        @Html.ValidationMessageFor(model => model.ConnectionString)
+    </div>
+    <div>
+        Database name :
+        <br />
+        @Html.TextBoxFor(model => model.DatabaseName, new { style = "width: 100%;" })
+        @Html.ValidationMessageFor(model => model.DatabaseName)
+    </div>
+    <div>
+        DacPac file :
+        <br />
+        @Html.TextBoxFor(m => m.DacPac, new { type = "file" })
+    </div>
+    <br />
+
+    <div>
+        Ignore Not For Replication :
+        @Html.CheckBoxFor(m => m.IgnoreNotForReplication)
+    </div>
+    <br />
+    <div>
+        Drop Constraints Not In Source :
+        @Html.CheckBoxFor(m => m.DropConstraintsNotInSource)
+    </div>
+    <br />
+    <div>
+        Drop Indexes Not In Source :
+        @Html.CheckBoxFor(m => m.DropIndexesNotInSource)
+    </div>
+    <br />
+    <div>
+        Verify Deployment :
+        @Html.CheckBoxFor(m => m.DropIndexesNotInSource)
+    </div>
+    <br />
+ 
+    <div>
+        Ignore the following objects :
+        <br />
+        @foreach (ObjectType ignoreObjectType in Enum.GetValues(typeof(ObjectType)))
+        {
+        <label>
+            <input name="IgnoreObjectTypes" type="checkbox" value="@ignoreObjectType" checked="@(Model != null && Model.IgnoreObjectTypes.Contains(ignoreObjectType))" />
+            @ignoreObjectType
+        </label>
+        <br />
+        }
+    </div>
+    <br />
+        <button type="submit">Generate</button>
+}
